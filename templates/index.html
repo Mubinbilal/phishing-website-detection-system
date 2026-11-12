@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Frontend styling only: backend integration remains unchanged -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-sRIlkxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+        crossorigin="anonymous">
+
+  <title>Phishing Website Detection</title>
+
+  <style>
+    /* Gives the result box breathing room when the browser jumps to the
+       #detection-result fragment, so it isn't flush against the viewport edge. */
+    #detection-result {
+      scroll-margin-top: 100px;
+    }
+  </style>
+</head>
+
+<body class="bg-white text-gray-800">
+
+<!-- =========================
+     HEADER / HERO
+     ========================= -->
+<section id="home" class="bg-white">
+  <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+
+    <header class="flex items-center justify-between py-5 md:py-7">
+
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-3 text-xl font-bold text-gray-900 md:text-2xl">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 shadow-sm">
+          <span class="text-xl">🛡️</span>
+        </div>
+        <span>Phishing Website Detection</span>
+      </a>
+
+      <!-- Navigation -->
+      <nav class="hidden items-center gap-8 lg:flex">
+        <a href="#home"
+           class="font-semibold text-indigo-600 transition hover:text-indigo-700">
+          Home
+        </a>
+
+        <a href="#detection"
+           class="font-semibold text-gray-600 transition hover:text-indigo-600">
+          Detection
+        </a>
+
+        <a href="#how-it-works"
+           class="font-semibold text-gray-600 transition hover:text-indigo-600">
+          How It Works
+        </a>
+
+        <a href="#about"
+           class="font-semibold text-gray-600 transition hover:text-indigo-600">
+          About
+        </a>
+      </nav>
+
+      <!-- Header CTA -->
+      <a href="#detection"
+         class="hidden rounded-lg bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 lg:inline-block">
+        Check a URL
+      </a>
+
+      <!-- Mobile menu button -->
+      <a href="#detection"
+         class="inline-flex items-center rounded-lg bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:bg-indigo-100 lg:hidden">
+        Check URL
+      </a>
+
+    </header>
+
+
+    <!-- Hero content -->
+    <div class="grid items-center gap-10 py-12 md:py-16 lg:grid-cols-2 lg:gap-16 lg:py-20">
+
+      <div>
+        <div class="mb-5 inline-flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600">
+          <span>🔐</span>
+          AI-Powered Web Security
+        </div>
+
+        <h1 class="mb-6 text-4xl font-extrabold leading-tight text-gray-900 md:text-5xl lg:text-6xl">
+          Detect Phishing Websites
+          <span class="text-indigo-600">Before You Trust Them</span>
+        </h1>
+
+        <p class="mb-8 max-w-xl text-base leading-7 text-gray-500 md:text-lg">
+          Analyze a website URL with our machine learning-based detection
+          system and receive a prediction about whether the URL appears
+          legitimate or potentially phishing.
+        </p>
+
+        <div class="flex flex-wrap gap-3">
+          <a href="#detection"
+             class="rounded-lg bg-indigo-600 px-7 py-3 font-semibold text-white shadow-sm transition hover:bg-indigo-700">
+            Analyze a Website
+          </a>
+
+          <a href="#how-it-works"
+             class="rounded-lg border border-gray-200 bg-white px-7 py-3 font-semibold text-gray-700 transition hover:border-indigo-300 hover:text-indigo-600">
+            Learn How It Works
+          </a>
+        </div>
+
+        <div class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-gray-500">
+          <span>✓ URL Analysis</span>
+          <span>✓ Machine Learning</span>
+          <span>✓ Fast Prediction</span>
+        </div>
+      </div>
+
+
+      <!-- Hero visual -->
+      <div class="relative">
+        <div class="rounded-3xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-white p-6 shadow-sm md:p-8">
+
+          <div class="rounded-2xl bg-white p-5 shadow-lg md:p-7">
+
+            <div class="mb-6 flex items-center justify-between">
+              <div>
+                <p class="text-sm font-medium text-gray-400">Security Check</p>
+                <h2 class="text-xl font-bold text-gray-900">Website Analysis</h2>
+              </div>
+
+              <div class="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100">
+                <span class="text-xl">🛡️</span>
+              </div>
+            </div>
+
+            <div class="mb-4 rounded-xl bg-gray-50 p-4">
+              <p class="mb-1 text-xs font-medium uppercase tracking-wider text-gray-400">
+                URL
+              </p>
+              <p class="truncate text-sm font-medium text-gray-700">
+                https://example-website.com
+              </p>
+            </div>
+
+            <div class="space-y-3">
+              <div class="flex items-center justify-between rounded-xl bg-green-50 p-4">
+                <span class="text-sm font-medium text-gray-700">URL Pattern</span>
+                <span class="font-semibold text-green-600">Analyzed</span>
+              </div>
+
+              <div class="flex items-center justify-between rounded-xl bg-indigo-50 p-4">
+                <span class="text-sm font-medium text-gray-700">ML Prediction</span>
+                <span class="font-semibold text-indigo-600">Processing</span>
+              </div>
+            </div>
+
+            <div class="mt-5 flex items-center gap-3 rounded-xl border border-gray-100 p-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-600 text-white">
+                ✓
+              </div>
+              <div>
+                <p class="font-semibold text-gray-800">Quick Analysis</p>
+                <p class="text-sm text-gray-500">Submit a URL to get a prediction.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================
+     DETECTION SECTION
+     IMPORTANT BACKEND HOOKS PRESERVED:
+     method="post"
+     action="/" (fragment "#detection-result" appended below is client-side only;
+                 Flask never receives it and the route is unaffected)
+     name="url"
+     {{predict}}
+     ========================= -->
+<section id="detection" class="bg-gray-50 py-14 sm:py-16 lg:py-20">
+  <div class="mx-auto max-w-screen-xl px-4 md:px-8">
+
+    <div class="mx-auto max-w-3xl text-center">
+      <div class="mb-4 inline-flex items-center rounded-full bg-indigo-100 px-4 py-2 text-sm font-semibold text-indigo-600">
+        Website Security Scanner
+      </div>
+
+      <h2 class="mb-4 text-3xl font-extrabold text-gray-900 md:text-4xl">
+        Check a Website URL
+      </h2>
+
+      <p class="text-gray-500 md:text-lg">
+        Enter the URL you want to analyze. The trained machine learning model
+        will process the submitted URL and return its prediction.
+      </p>
+    </div>
+
+
+    <!-- BACKEND FORM: method/name/route unchanged. The "#detection-result"
+         fragment on action is stripped by the browser before the request is
+         sent, so Flask still just sees a POST to "/". Its only job is to make
+         the browser land back on the result box after the page reloads. -->
+    <form class="mx-auto mt-10 max-w-3xl rounded-2xl border border-gray-100 bg-white p-6 shadow-lg md:p-8"
+          method="post"
+          action="/#detection-result">
+
+      <label for="url" class="mb-3 block text-sm font-semibold text-gray-800 md:text-base">
+        Website URL
+      </label>
+
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <!-- BACKEND FIELD: name="url" is required by app.py -->
+        <input
+          name="url"
+          id="url"
+          type="text"
+          placeholder="https://example.com"
+          required
+          autocomplete="url"
+          class="w-full flex-1 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-gray-800 placeholder-gray-400 outline-none transition focus:border-indigo-400 focus:bg-white focus:ring-4 focus:ring-indigo-100"
+        />
+
+        <!-- Submits the same POST request to / -->
+        <button
+          type="submit"
+          class="rounded-lg bg-indigo-600 px-8 py-3 font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-200 active:bg-indigo-800">
+          Analyze URL
+        </button>
+      </div>
+
+      <p class="mt-3 text-xs text-gray-400">
+        Enter a complete website URL for analysis.
+      </p>
+
+      <!-- BACKEND RESULT: {{predict}} is intentionally preserved -->
+      <div id="detection-result" class="mt-7 rounded-xl border border-indigo-100 bg-indigo-50 p-5 text-center">
+        <p class="mb-1 text-xs font-bold uppercase tracking-widest text-indigo-500">
+          Detection Result
+        </p>
+
+        <p class="text-lg font-bold text-indigo-700">
+          {{predict}}
+        </p>
+      </div>
+
+    </form>
+
+  </div>
+</section>
+
+
+<!-- =========================
+     FEATURES
+     ========================= -->
+<section id="about" class="bg-white py-14 sm:py-16 lg:py-20">
+  <div class="mx-auto max-w-screen-xl px-4 md:px-8">
+
+    <div class="mx-auto mb-12 max-w-3xl text-center">
+      <span class="mb-4 inline-block rounded-full bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600">
+        Built for Safer Browsing
+      </span>
+
+      <h2 class="mb-4 text-3xl font-extrabold text-gray-900 md:text-4xl">
+        Intelligent Phishing Detection
+      </h2>
+
+      <p class="text-gray-500 md:text-lg">
+        The system combines URL analysis with a trained machine learning model
+        to provide a quick prediction from the website address you submit.
+      </p>
+    </div>
+
+
+    <div class="grid gap-6 md:grid-cols-3">
+
+      <div class="rounded-2xl border border-gray-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+        <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-indigo-100 text-2xl">
+          🔍
+        </div>
+
+        <h3 class="mb-3 text-xl font-bold text-gray-900">
+          URL Analysis
+        </h3>
+
+        <p class="leading-7 text-gray-500">
+          The submitted website address is analyzed for characteristics and
+          patterns that can help distinguish suspicious URLs.
+        </p>
+      </div>
+
+
+      <div class="rounded-2xl border border-gray-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+        <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-indigo-100 text-2xl">
+          🤖
+        </div>
+
+        <h3 class="mb-3 text-xl font-bold text-gray-900">
+          Machine Learning
+        </h3>
+
+        <p class="leading-7 text-gray-500">
+          A trained classification model processes the URL representation and
+          generates the prediction displayed by the application.
+        </p>
+      </div>
+
+
+      <div class="rounded-2xl border border-gray-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+        <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-indigo-100 text-2xl">
+          🛡️
+        </div>
+
+        <h3 class="mb-3 text-xl font-bold text-gray-900">
+          Security Awareness
+        </h3>
+
+        <p class="leading-7 text-gray-500">
+          The result can help users identify potentially suspicious websites
+          before sharing sensitive information.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================
+     HOW IT WORKS
+     ========================= -->
+<section id="how-it-works" class="bg-gray-50 py-14 sm:py-16 lg:py-20">
+  <div class="mx-auto max-w-screen-xl px-4 md:px-8">
+
+    <div class="mx-auto mb-12 max-w-3xl text-center">
+      <span class="mb-4 inline-block rounded-full bg-indigo-100 px-4 py-2 text-sm font-semibold text-indigo-600">
+        Simple Process
+      </span>
+
+      <h2 class="mb-4 text-3xl font-extrabold text-gray-900 md:text-4xl">
+        How the Detection Works
+      </h2>
+
+      <p class="text-gray-500 md:text-lg">
+        The user experience is simple: submit a URL, let the model analyze it,
+        and review the prediction.
+      </p>
+    </div>
+
+
+    <div class="grid gap-8 md:grid-cols-3">
+
+      <!-- Step 1 -->
+      <div class="relative rounded-2xl bg-white p-7 text-center shadow-sm">
+        <div class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-indigo-600 text-xl font-bold text-white">
+          1
+        </div>
+
+        <h3 class="mb-3 text-xl font-bold text-gray-900">
+          Enter URL
+        </h3>
+
+        <p class="leading-7 text-gray-500">
+          Enter the website address you want the system to examine.
+        </p>
+      </div>
+
+
+      <!-- Step 2 -->
+      <div class="relative rounded-2xl bg-white p-7 text-center shadow-sm">
+        <div class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-indigo-600 text-xl font-bold text-white">
+          2
+        </div>
+
+        <h3 class="mb-3 text-xl font-bold text-gray-900">
+          Analyze
+        </h3>
+
+        <p class="leading-7 text-gray-500">
+          The backend receives the URL and passes it through the saved
+          vectorizer and machine learning model.
+        </p>
+      </div>
+
+
+      <!-- Step 3 -->
+      <div class="relative rounded-2xl bg-white p-7 text-center shadow-sm">
+        <div class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-indigo-600 text-xl font-bold text-white">
+          3
+        </div>
+
+        <h3 class="mb-3 text-xl font-bold text-gray-900">
+          View Result
+        </h3>
+
+        <p class="leading-7 text-gray-500">
+          The prediction returned by the backend is displayed in the detection
+          result area above.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================
+     SECURITY INFORMATION
+     ========================= -->
+<section class="bg-white py-14 sm:py-16 lg:py-20">
+  <div class="mx-auto max-w-screen-xl px-4 md:px-8">
+
+    <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+
+      <div>
+        <span class="mb-4 inline-block rounded-full bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600">
+          Online Security
+        </span>
+
+        <h2 class="mb-5 text-3xl font-extrabold text-gray-900 md:text-4xl">
+          Think Before You Trust a Link
+        </h2>
+
+        <p class="mb-7 leading-8 text-gray-500">
+          Phishing attacks can use deceptive website addresses to make
+          fraudulent pages appear trustworthy. Examining a URL is one useful
+          step before entering passwords, financial information, or other
+          sensitive data.
+        </p>
+
+        <div class="space-y-4">
+
+          <div class="flex gap-3">
+            <div class="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-100 text-sm text-green-600">
+              ✓
+            </div>
+            <p class="text-gray-600">
+              Analyze suspicious URLs before interacting with the website.
+            </p>
+          </div>
+
+          <div class="flex gap-3">
+            <div class="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-100 text-sm text-green-600">
+              ✓
+            </div>
+            <p class="text-gray-600">
+              Look for unusual or deceptive URL characteristics.
+            </p>
+          </div>
+
+          <div class="flex gap-3">
+            <div class="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-100 text-sm text-green-600">
+              ✓
+            </div>
+            <p class="text-gray-600">
+              Use the prediction as an additional security-awareness tool.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="rounded-3xl bg-indigo-600 p-8 text-white shadow-lg md:p-10">
+
+        <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/15 text-3xl">
+          🔐
+        </div>
+
+        <h3 class="mb-4 text-2xl font-bold md:text-3xl">
+          Protect Your Digital Identity
+        </h3>
+
+        <p class="mb-7 leading-7 text-indigo-100">
+          Never rely on appearance alone. Before submitting sensitive
+          information, verify the website address and consider whether the
+          URL appears trustworthy.
+        </p>
+
+        <a href="#detection"
+           class="inline-block rounded-lg bg-white px-7 py-3 font-semibold text-indigo-600 transition hover:bg-gray-100">
+          Analyze a Website
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================
+     PROJECT HIGHLIGHTS
+     ========================= -->
+<section class="bg-gray-50 py-14 sm:py-16 lg:py-20">
+  <div class="mx-auto max-w-screen-xl px-4 md:px-8">
+
+    <div class="mb-10 text-center">
+      <h2 class="text-3xl font-extrabold text-gray-900 md:text-4xl">
+        System Highlights
+      </h2>
+
+      <p class="mx-auto mt-4 max-w-2xl text-gray-500 md:text-lg">
+        A focused interface for testing and demonstrating a machine
+        learning-based phishing URL detection system.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+
+      <div class="rounded-2xl bg-white p-6 text-center shadow-sm">
+        <div class="text-3xl font-extrabold text-indigo-600">ML</div>
+        <p class="mt-2 text-sm font-medium text-gray-500">
+          Model-Based Prediction
+        </p>
+      </div>
+
+      <div class="rounded-2xl bg-white p-6 text-center shadow-sm">
+        <div class="text-3xl font-extrabold text-indigo-600">URL</div>
+        <p class="mt-2 text-sm font-medium text-gray-500">
+          Website Address Analysis
+        </p>
+      </div>
+
+      <div class="rounded-2xl bg-white p-6 text-center shadow-sm">
+        <div class="text-3xl font-extrabold text-indigo-600">⚡</div>
+        <p class="mt-2 text-sm font-medium text-gray-500">
+          Quick Results
+        </p>
+      </div>
+
+      <div class="rounded-2xl bg-white p-6 text-center shadow-sm">
+        <div class="text-3xl font-extrabold text-indigo-600">🛡️</div>
+        <p class="mt-2 text-sm font-medium text-gray-500">
+          Security Awareness
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================
+     FINAL CTA
+     ========================= -->
+<section class="bg-white py-14 sm:py-16 lg:py-20">
+  <div class="mx-auto max-w-screen-xl px-4 md:px-8">
+
+    <div class="overflow-hidden rounded-3xl bg-indigo-600 px-6 py-12 text-center shadow-lg md:px-12 md:py-16">
+
+      <div class="mx-auto max-w-3xl">
+
+        <div class="mb-5 text-4xl">
+          🛡️
+        </div>
+
+        <h2 class="mb-5 text-3xl font-extrabold text-white md:text-4xl lg:text-5xl">
+          Is the URL Safe?
+        </h2>
+
+        <p class="mb-8 text-base leading-7 text-indigo-100 md:text-lg">
+          Submit a website URL and let the phishing detection system analyze
+          it using the trained machine learning model.
+        </p>
+
+        <a href="#detection"
+           class="inline-block rounded-lg bg-white px-8 py-3 font-semibold text-indigo-600 shadow-sm transition hover:bg-gray-100">
+          Start Detection
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================
+     FOOTER
+     ========================= -->
+<footer class="bg-white">
+
+  <div class="bg-indigo-600 py-8">
+    <div class="mx-auto max-w-screen-xl px-4 md:px-8">
+
+      <div class="flex flex-col items-center justify-between gap-5 md:flex-row">
+
+        <div class="text-center md:text-left">
+          <h3 class="text-xl font-bold text-white md:text-2xl">
+            Stay Alert. Stay Secure.
+          </h3>
+
+          <p class="mt-2 text-indigo-100">
+            Analyze suspicious URLs before trusting them.
+          </p>
+        </div>
+
+        <a href="#detection"
+           class="rounded-lg bg-white px-7 py-3 font-semibold text-indigo-600 transition hover:bg-gray-100">
+          Check a Website
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="pt-12 lg:pt-14">
+    <div class="mx-auto max-w-screen-xl px-4 md:px-8">
+
+      <div class="mb-12 grid gap-10 md:grid-cols-3">
+
+        <!-- Brand -->
+        <div>
+          <a href="/" class="mb-4 inline-flex items-center gap-3 text-xl font-bold text-gray-900">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600">
+              <span class="text-lg">🛡️</span>
+            </div>
+            Phishing Website Detection
+          </a>
+
+          <p class="max-w-md text-gray-500">
+            A machine learning-based project for analyzing website URLs and
+            identifying potentially phishing websites.
+          </p>
+        </div>
+
+
+        <!-- Navigation -->
+        <div>
+          <h4 class="mb-4 font-bold tracking-widest text-gray-800 uppercase">
+            Navigation
+          </h4>
+
+          <nav class="flex flex-col gap-3">
+            <a href="#home" class="text-gray-500 transition hover:text-indigo-600">
+              Home
+            </a>
+
+            <a href="#detection" class="text-gray-500 transition hover:text-indigo-600">
+              Detection
+            </a>
+
+            <a href="#how-it-works" class="text-gray-500 transition hover:text-indigo-600">
+              How It Works
+            </a>
+
+            <a href="#about" class="text-gray-500 transition hover:text-indigo-600">
+              About
+            </a>
+          </nav>
+        </div>
+
+
+        <!-- Security -->
+        <div>
+          <h4 class="mb-4 font-bold tracking-widest text-gray-800 uppercase">
+            Security
+          </h4>
+
+          <nav class="flex flex-col gap-3">
+            <a href="#detection" class="text-gray-500 transition hover:text-indigo-600">
+              URL Analysis
+            </a>
+
+            <a href="#detection" class="text-gray-500 transition hover:text-indigo-600">
+              Check a Website
+            </a>
+
+            <a href="#how-it-works" class="text-gray-500 transition hover:text-indigo-600">
+              Detection Process
+            </a>
+
+            <a href="#about" class="text-gray-500 transition hover:text-indigo-600">
+              Security Awareness
+            </a>
+          </nav>
+        </div>
+
+      </div>
+
+
+      <div class="border-t border-gray-200 py-8 text-center text-sm text-gray-400">
+        © 2026 Phishing Website Detection System. All rights reserved.
+      </div>
+
+    </div>
+  </div>
+
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYJwR0WcX/K/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+
+<script>
+  // Submit the URL to Flask in the background instead of doing a normal
+  // full-page form POST. This is the only way to guarantee the page never
+  // scrolls: a real form submission always reloads the page, and any reload
+  // -- fragment or not -- causes a visible jump while the browser repaints.
+  //
+  // Backend contract is unchanged: we send the exact same POST body
+  // (the "url" field) to the exact same "/" route Flask already handles,
+  // and Flask still renders {{predict}} into the same #detection-result
+  // markup. We simply read that piece back out of the response and drop it
+  // into the current page instead of letting the browser navigate to it.
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector('#detection form');
+    if (!form) return;
+
+    const button = form.querySelector('button[type="submit"]');
+    const resultBox = document.getElementById("detection-result");
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const originalLabel = button.textContent;
+      button.disabled = true;
+      button.textContent = "Analyzing...";
+
+      try {
+        const response = await fetch(form.action.split("#")[0] || "/", {
+          method: "POST",
+          body: new FormData(form)
+        });
+
+        if (!response.ok) throw new Error("Request failed: " + response.status);
+
+        const html = await response.text();
+        const parsed = new DOMParser().parseFromString(html, "text/html");
+        const newResult = parsed.getElementById("detection-result");
+
+        if (newResult && resultBox) {
+          resultBox.innerHTML = newResult.innerHTML;
+        }
+      } catch (err) {
+        console.error("Analysis request failed:", err);
+        if (resultBox) {
+          resultBox.querySelector("p:last-child").textContent =
+            "Something went wrong. Please try again.";
+        }
+      } finally {
+        button.disabled = false;
+        button.textContent = originalLabel;
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
